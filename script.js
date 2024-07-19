@@ -10,22 +10,25 @@ const subtitulo = document.querySelector('.app__title.app__title-strong');
 const botoes = document.querySelectorAll('.app__card-button');
 
 let tempoDecorridoEmSegundos = 1500;
+let tempoTotalFoco = 1500;
+let tempoTotalDescansoCurto = 900;
+let tempoTotalDescansoLongo = 300;
 
 // Trocando o fundo e as imagens
 focoBt.addEventListener('click', () => {
-    tempoDecorridoEmSegundos = 1500;
+    tempoDecorridoEmSegundos = tempoTotalFoco;
     alterarContexto('foco');
     focoBt.classList.add('active');
 }) 
 
 curtoBt.addEventListener('click', () => {
-    tempoDecorridoEmSegundos = 300;
+    tempoDecorridoEmSegundos = tempoTotalDescansoCurto;
     alterarContexto('descanso-curto');
     curtoBt.classList.add('active');
 }) 
 
 longoBt.addEventListener('click', () => {
-    tempoDecorridoEmSegundos = 900;
+    tempoDecorridoEmSegundos = tempoTotalDescansoLongo;
     alterarContexto('descanso-longo');
     longoBt.classList.add('active');
 }) 
@@ -51,12 +54,12 @@ function alterarContexto(contexto) {
             Que tal dar uma respirada?<br />
                 <strong class="app__title-strong">Faça uma pausa curta!</strong>`;
                 break;
-                case "descanso-longo":
-                    titulo.innerHTML = `
-                    ora de voltar à superfície.<br />
-                    <strong class="app__title-strong">Faça uma pausa longa.</strong>`;
-                    break;
-                    default:
+        case "descanso-longo":
+            titulo.innerHTML = `
+                ora de voltar à superfície.<br />
+                <strong class="app__title-strong">Faça uma pausa longa.</strong>`;
+                break;
+        default:
             break; //se não tiver nenhum dos cases ele vai dar break e não retornará nada
         }
     }
@@ -83,6 +86,7 @@ const somPausa = new Audio('./sons/pause.mp3');
 const startPauseBt = document.querySelector('#start-pause');
 const iniciarOuPausarBt = document.querySelector('#start-pause span');
 const iniciarOuPausarIcon = document.querySelector('#start-pause img');
+const resetarTempoBt = document.querySelector('#reset');
 
 let intervaloId = null;
 const tempoNaTela = document.querySelector('#timer');
@@ -98,6 +102,7 @@ const contagemRegressiva = () => {
 }
 
 startPauseBt.addEventListener('click', iniciarOuPausar);
+
 
 function iniciarOuPausar(){
     if(intervaloId){
@@ -122,6 +127,31 @@ function mostrarTempo() {
     const tempo = new Date(tempoDecorridoEmSegundos * 1000); //1000 é porque só trabalhamos com milisegundos
     const tempoFormatado = tempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit'});
     tempoNaTela.innerHTML = `${tempoFormatado}`;
+}
+
+resetarTempoBt.addEventListener('click', () => {
+    switch (html.getAttribute('data-contexto')) {
+        case 'foco':
+            tempoDecorridoEmSegundos = tempoTotalFoco;
+            resetarTimer()
+            break;
+        case 'descanso-curto':
+            tempoDecorridoEmSegundos = tempoTotalDescansoCurto;
+            resetarTimer()
+            break;
+        case 'descanso-longo':
+            tempoDecorridoEmSegundos = tempoTotalDescansoLongo;
+            resetarTimer()
+            break;
+        default:
+        break;
+    }
+    
+});
+
+function resetarTimer(){
+    mostrarTempo();
+    zerar();
 }
 
 mostrarTempo(); //está sendo chamada no escopo global, então vai estar aparecendo na página o tempo inteiro
