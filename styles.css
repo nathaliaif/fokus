@@ -128,10 +128,15 @@ h6 {
   border: none;
   cursor: pointer;
   outline: inherit;
+  transition: 0.3s;
+  border-radius: 0.8rem;
+
+  &:hover {
+    background-color: rgb(from var(--azul-royal) r g b / 30%);
+  }
 }
 
 .app__card-button.active {
-  border-radius: 0.8rem;
   background: var(--azul-royal);
   font-weight: 600;
 }
@@ -178,6 +183,12 @@ h6 {
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  transition: 0.3s;
+
+  &:hover {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      var(--linear-botes);
+  }
 }
 
 .app__card-secondary-button {
@@ -195,6 +206,12 @@ h6 {
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  transition: 0.5s;
+
+  &:hover {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+      var(--linear-secondary);
+  }
 }
 
 .app__footer {
