@@ -9,7 +9,7 @@ const titulo = document.querySelector('.app__title');
 const subtitulo = document.querySelector('.app__title.app__title-strong');
 const botoes = document.querySelectorAll('.app__card-button');
 
-let tempoDecorridoEmSegundos = 1500;
+let tempoDecorridoEmSegundos = 10;
 let tempoTotalFoco = 1500;
 let tempoTotalDescansoCurto = 900;
 let tempoTotalDescansoLongo = 300;
@@ -94,6 +94,12 @@ const tempoNaTela = document.querySelector('#timer');
 const contagemRegressiva = () => {
     if(tempoDecorridoEmSegundos <= 0){
         somStart.play();
+        const focoAtivo = html.getAttribute('data-contexto') == 'foco';
+
+        if (focoAtivo){
+            const evento = new CustomEvent('FocoFinalizado');
+            document.dispatchEvent(evento);
+        }
         zerar();
         return
     }
